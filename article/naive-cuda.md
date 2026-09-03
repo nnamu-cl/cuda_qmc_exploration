@@ -36,4 +36,14 @@ CUDA's ULP tables (Programming Guide, mathematical functions): `expf` / `sincosf
 
 Device goldens vs the mpmath/scipy file: FP64 < 10⁻¹²; FP32 < 10⁻⁵. GPU invert of the host tables matches the CPU invert (4096 probes). KS / χ² / ⟨r⟩, ⟨r²⟩, ⟨1/r⟩ on 10⁷ samples × six orbitals, including (3,1,−1) and (5,0,0), pass the same gates as Part 1. Bitwise self-determinism holds. XORWOW ≠ Philox, so there is no bitwise A/B against the CPU sampler — the invert A/B is the algorithm check.
 
-Nsight Compute is not installed here. The miss is already large enough to read without a stall table: I overcharged DRAM and libm. Next part should remove the binary search, not tune `__expf`.
+## Profiler
+
+Reports: `parts/naive-cuda/results/nsight/reading.md`. ncu SM was 1.17 GHz on replay; stalls only.
+
+K1: SM **84.8%**, DRAM 19%, **FP64 pipe 84.8%** (53% of that peak). Long scoreboard 65% of the issue gap. L2 hit 84% — the tables are cached. Branch efficiency **100%**: the 23-step walk is predicated, not warp-divergent. Uncoalesced loads use 8 B of each 32 B sector (68% extra sectors). I had DRAM and divergence; ncu has FP64 pipe plus uncoalesced L1TEX.
+
+K2: **3% of FP32 peak**. DRAM 52%, compute 31%. Stalls are LG-queue full (54%) then scoreboard (31%). Uncoalesced 78%. `__expf` had nothing to cut.
+
+XORWOW setup: 22 ms per 1e6 states, DRAM 3%, LSU 90%. nsys: setup 60% of GPU kernel time vs sample 40% at that launch mix.
+
+Next is inverse-table (the 23 loads), then Philox (setup + 48 B), not fast-math.
