@@ -2,6 +2,8 @@ KERNEL_COLORS = {
     "cpu_single": "#4c78a8",
     "cpu_openmp": "#9ecae9",
     "naive_fp64": "#f58518",
+    "naive_fp32": "#eeca3b",
+    "naive_fp32_fast": "#f2cf5b",
     "fp32": "#eeca3b",
     "shared_cdf": "#54a24b",
     "inverse_lerp": "#88d27a",

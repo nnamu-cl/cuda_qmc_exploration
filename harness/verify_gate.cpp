@@ -1,5 +1,6 @@
 #include "harness/verify_gate.h"
 
+#include <cstdio>
 #include <cstdlib>
 #include <fstream>
 #include <unistd.h>
@@ -26,6 +27,10 @@ bool RecordVerifyFullOk() {
   std::ofstream out(VerifyFullPath());
   out << "ok\n";
   return static_cast<bool>(out);
+}
+
+void ClearVerifyFull() {
+  std::remove(VerifyFullPath().c_str());
 }
 
 }  // namespace qmc::harness

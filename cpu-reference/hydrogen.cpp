@@ -113,6 +113,14 @@ HydrogenSampler::HydrogenSampler(QuantumNumbers qn) : qn_(qn) {
              theta_cdf_fine_);
 }
 
+double HydrogenSampler::InvertRadial(double u) const {
+  return InvertCdf(r_nodes_, r_cdf_, u);
+}
+
+double HydrogenSampler::InvertTheta(double u) const {
+  return InvertCdf(theta_nodes_, theta_cdf_, u);
+}
+
 HydrogenSample HydrogenSampler::Sample(std::uint64_t seed,
                                        std::uint32_t index) const {
   const qmc::rng::Philox4x32Key key = qmc::rng::SeedToKey(seed);

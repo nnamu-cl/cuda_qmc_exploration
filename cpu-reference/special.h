@@ -73,24 +73,30 @@ inline constexpr double kBohrRadius = 1.0;
   return phase * Factorial(l - m_abs) / Factorial(l + m_abs) * plm;
 }
 
+[[nodiscard]] inline double RadialNorm(int n, int l, double a0 = kBohrRadius) {
+  return std::sqrt(std::pow(2.0 / (static_cast<double>(n) * a0), 3.0) *
+                   Factorial(n - l - 1) / (2.0 * n * Factorial(n + l)));
+}
+
+[[nodiscard]] inline double SphericalHarmonicNorm(int l, int m) {
+  const int m_abs = m < 0 ? -m : m;
+  return ((2.0 * l + 1.0) / (4.0 * std::numbers::pi)) *
+         (Factorial(l - m_abs) / Factorial(l + m_abs));
+}
+
 [[nodiscard]] inline double RadialRnl(int n, int l, double r,
                                       double a0 = kBohrRadius) {
   const double rho = 2.0 * r / (static_cast<double>(n) * a0);
-  const double norm = std::sqrt(
-      std::pow(2.0 / (static_cast<double>(n) * a0), 3.0) *
-      Factorial(n - l - 1) / (2.0 * n * Factorial(n + l)));
   const double laguerre = AssociatedLaguerre(n - l - 1, 2 * l + 1, rho);
   const double rho_l = (l == 0) ? 1.0 : std::pow(rho, static_cast<double>(l));
-  return norm * std::exp(-0.5 * rho) * rho_l * laguerre;
+  return RadialNorm(n, l, a0) * std::exp(-0.5 * rho) * rho_l * laguerre;
 }
 
 [[nodiscard]] inline double SphericalHarmonicDensity(int l, int m,
                                                      double theta) {
   const int m_abs = m < 0 ? -m : m;
   const double plm = AssociatedLegendrePositiveM(l, m_abs, std::cos(theta));
-  const double norm = ((2.0 * l + 1.0) / (4.0 * std::numbers::pi)) *
-                      (Factorial(l - m_abs) / Factorial(l + m_abs));
-  return norm * plm * plm;
+  return SphericalHarmonicNorm(l, m) * plm * plm;
 }
 
 [[nodiscard]] inline double WavefunctionDensity(int n, int l, int m, double r,

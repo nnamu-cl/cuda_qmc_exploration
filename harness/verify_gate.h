@@ -8,6 +8,7 @@ namespace qmc::harness {
 [[nodiscard]] std::string VerifyFullPath();
 [[nodiscard]] bool VerifyFullPassed();
 [[nodiscard]] bool RecordVerifyFullOk();
+void ClearVerifyFull();
 
 }  // namespace qmc::harness
 

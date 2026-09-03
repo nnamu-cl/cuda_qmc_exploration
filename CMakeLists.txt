@@ -78,6 +78,13 @@ add_executable(cuda_qmc_exploration
         harness/stats_smoke.cpp
         parts/cpu-baseline/src/cpu_bench.cpp
         parts/cpu-baseline/verify/check_reference.cpp
+        parts/naive-cuda/src/xorwow_setup.cu
+        parts/naive-cuda/src/sample_double.cu
+        parts/naive-cuda/src/sample_float.cu
+        parts/naive-cuda/src/sample_float_fast.cu
+        parts/naive-cuda/src/naive_bench.cpp
+        parts/naive-cuda/experiments/fp32_error.cu
+        parts/naive-cuda/verify/check_naive.cpp
 )
 target_include_directories(cuda_qmc_exploration PRIVATE ${CMAKE_SOURCE_DIR})
 target_link_libraries(cuda_qmc_exploration PRIVATE

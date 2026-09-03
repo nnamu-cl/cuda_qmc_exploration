@@ -35,6 +35,14 @@ class HydrogenSampler {
 
   [[nodiscard]] QuantumNumbers Numbers() const { return qn_; }
   [[nodiscard]] double RadiusMax() const { return r_nodes_.back(); }
+  [[nodiscard]] std::span<const double> RadialNodes() const { return r_nodes_; }
+  [[nodiscard]] std::span<const double> RadialCdf() const { return r_cdf_; }
+  [[nodiscard]] std::span<const double> ThetaNodes() const {
+    return theta_nodes_;
+  }
+  [[nodiscard]] std::span<const double> ThetaCdf() const { return theta_cdf_; }
+  [[nodiscard]] double InvertRadial(double u) const;
+  [[nodiscard]] double InvertTheta(double u) const;
   [[nodiscard]] HydrogenSample Sample(std::uint64_t seed,
                                       std::uint32_t index) const;
   void SampleMany(std::uint64_t seed, std::span<HydrogenSample> out,
