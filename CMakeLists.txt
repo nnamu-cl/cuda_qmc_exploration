@@ -85,6 +85,13 @@ add_executable(cuda_qmc_exploration
         parts/naive-cuda/src/naive_bench.cpp
         parts/naive-cuda/experiments/fp32_error.cu
         parts/naive-cuda/verify/check_naive.cpp
+        parts/inverse-table/src/table_build.cpp
+        parts/inverse-table/src/shared_cdf.cu
+        parts/inverse-table/src/inverse_lookup.cu
+        parts/inverse-table/src/bench.cpp
+        parts/inverse-table/experiments/occupancy.cpp
+        parts/inverse-table/experiments/node_trap.cpp
+        parts/inverse-table/verify/check_inverse.cpp
 )
 target_include_directories(cuda_qmc_exploration PRIVATE ${CMAKE_SOURCE_DIR})
 target_link_libraries(cuda_qmc_exploration PRIVATE

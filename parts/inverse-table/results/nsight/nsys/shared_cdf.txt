@@ -1,0 +1,14 @@
+
+NOTICE: Existing SQLite export found: parts/inverse-table/results/nsight/nsys/shared_cdf.sqlite
+        It is assumed file was previously exported from: parts/inverse-table/results/nsight/nsys/shared_cdf.nsys-rep
+        Consider using --force-export=true if needed.
+
+Processing [parts/inverse-table/results/nsight/nsys/shared_cdf.sqlite] with [/usr/lib/nsight-systems/target-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
+
+ Time (%)  Total Time (ns)  Instances    Avg (ns)      Med (ns)     Min (ns)    Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  ------------  ------------  ----------  ----------  -----------  ----------------------------------------------------------------------------------------------------
+     78.2       58,957,651          3  19,652,550.3  18,768,771.0  17,516,895  22,671,985  2,688,780.0  qmc::naive::<unnamed>::SetupXorwowKernel(curandStateXORWOW *, unsigned long long, int)              
+     21.8       16,443,804         23     714,948.0     715,074.0     711,970     718,499      1,526.6  qmc::inverse::<unnamed>::SampleSharedCdfKernel(const float *, const float *, int, const float *, co…
+

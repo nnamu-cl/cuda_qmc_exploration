@@ -1,0 +1,60 @@
+{
+  "env": {
+    "clocks_locked": true,
+    "clocks_sm_mhz": 1500,
+    "gpu": "NVIDIA GeForce RTX 2070 Super with Max-Q Design"
+  },
+  "experiment": "shared_cdf_occupancy",
+  "n_samples": 8000000,
+  "part": "inverse-table",
+  "rows": [
+    {
+      "cache_nodes": false,
+      "gsamples_per_s": 0.734695554130977,
+      "median_ms": 10.888864040374756,
+      "occupancy_blocks": 2,
+      "shared_bytes": 24576,
+      "threads": 128
+    },
+    {
+      "cache_nodes": false,
+      "gsamples_per_s": 1.3686555642776277,
+      "median_ms": 5.845152139663696,
+      "occupancy_blocks": 2,
+      "shared_bytes": 24576,
+      "threads": 256
+    },
+    {
+      "cache_nodes": false,
+      "gsamples_per_s": 1.627355200643368,
+      "median_ms": 4.91595196723938,
+      "occupancy_blocks": 2,
+      "shared_bytes": 24576,
+      "threads": 512
+    },
+    {
+      "cache_nodes": true,
+      "gsamples_per_s": 0.4022073194892241,
+      "median_ms": 19.890239715576172,
+      "occupancy_blocks": 1,
+      "shared_bytes": 49152,
+      "threads": 128
+    },
+    {
+      "cache_nodes": true,
+      "gsamples_per_s": 0.9563319280103434,
+      "median_ms": 8.365296363830566,
+      "occupancy_blocks": 1,
+      "shared_bytes": 49152,
+      "threads": 256
+    },
+    {
+      "cache_nodes": true,
+      "gsamples_per_s": 1.584203605643288,
+      "median_ms": 5.049855947494507,
+      "occupancy_blocks": 1,
+      "shared_bytes": 49152,
+      "threads": 512
+    }
+  ]
+}

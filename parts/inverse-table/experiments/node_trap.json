@@ -1,0 +1,86 @@
+{
+  "env": {
+    "clocks_sm_mhz": 1500,
+    "gpu": "NVIDIA GeForce RTX 2070 Super with Max-Q Design"
+  },
+  "experiment": "node_trap_k_sweep",
+  "n_samples": 1000000,
+  "part": "inverse-table",
+  "quantum_numbers": [
+    3,
+    1,
+    -1
+  ],
+  "rows": [
+    {
+      "chi2_node_window": 53054.064953525296,
+      "chi2_radial_256": 242827801911.15323,
+      "k_radial": 256,
+      "k_theta": 128,
+      "kernel": "inverse_table"
+    },
+    {
+      "chi2_node_window": 21845.145814254814,
+      "chi2_radial_256": 242827797416.07974,
+      "k_radial": 256,
+      "k_theta": 128,
+      "kernel": "inverse_nodes"
+    },
+    {
+      "chi2_node_window": 10238.533000712854,
+      "chi2_radial_256": 21531917186.81372,
+      "k_radial": 1024,
+      "k_theta": 512,
+      "kernel": "inverse_table"
+    },
+    {
+      "chi2_node_window": 3969.8085353558035,
+      "chi2_radial_256": 21531916901.12384,
+      "k_radial": 1024,
+      "k_theta": 512,
+      "kernel": "inverse_nodes"
+    },
+    {
+      "chi2_node_window": 1552.2787311247844,
+      "chi2_radial_256": 913667879.959339,
+      "k_radial": 4096,
+      "k_theta": 2048,
+      "kernel": "inverse_table"
+    },
+    {
+      "chi2_node_window": 859.7949892856863,
+      "chi2_radial_256": 913668032.6868571,
+      "k_radial": 4096,
+      "k_theta": 2048,
+      "kernel": "inverse_nodes"
+    },
+    {
+      "chi2_node_window": 281.37796098392204,
+      "chi2_radial_256": 252774909.79238513,
+      "k_radial": 16384,
+      "k_theta": 8192,
+      "kernel": "inverse_table"
+    },
+    {
+      "chi2_node_window": 140.1154023181492,
+      "chi2_radial_256": 252774917.19325766,
+      "k_radial": 16384,
+      "k_theta": 8192,
+      "kernel": "inverse_nodes"
+    },
+    {
+      "chi2_node_window": 84.85447126893213,
+      "chi2_radial_256": 690277.2508033775,
+      "k_radial": 65536,
+      "k_theta": 32768,
+      "kernel": "inverse_table"
+    },
+    {
+      "chi2_node_window": 166.03548502576933,
+      "chi2_radial_256": 690278.9540712066,
+      "k_radial": 65536,
+      "k_theta": 32768,
+      "kernel": "inverse_nodes"
+    }
+  ]
+}
