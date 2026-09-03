@@ -1,0 +1,48 @@
+{
+  "achieved_gbps": 0.48246121694752786,
+  "bytes_per_sample": 32.0,
+  "env": {
+    "clocks_locked": true,
+    "clocks_mem_mhz": 5500,
+    "clocks_sm_mhz": 1500,
+    "cuda": "13.3",
+    "driver": "610.57.04",
+    "git": "54b190d",
+    "gpu": "NVIDIA GeForce RTX 2070 Super with Max-Q Design",
+    "power_w": 40.07,
+    "temperature_c": 64
+  },
+  "gsamples_per_s": 0.015076913029610246,
+  "kernel": "cpu_openmp",
+  "median_ms": 530.6125985,
+  "n_samples": 8000000,
+  "part": "cpu-baseline",
+  "quantum_numbers": [
+    1,
+    0,
+    0
+  ],
+  "reps_ms": [
+    422.546707,
+    435.915449,
+    566.926778,
+    553.789169,
+    440.103593,
+    475.328147,
+    574.823053,
+    529.5671,
+    431.389033,
+    486.97028,
+    523.19314,
+    555.894654,
+    519.492647,
+    544.433928,
+    623.541038,
+    531.658097,
+    531.820617,
+    565.116762,
+    539.02089,
+    459.380848
+  ],
+  "workload": "hydrogen_samples"
+}

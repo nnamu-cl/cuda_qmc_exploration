@@ -6,6 +6,7 @@
 namespace qmc::harness {
 
 struct MicrobenchOptions {
+  std::string part = "cpu-baseline";
   std::string kind = "bw_copy";
   int n = 1 << 24;
   std::string out_path;

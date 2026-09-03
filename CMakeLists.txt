@@ -33,6 +33,8 @@ FetchContent_Declare(fmt
 )
 FetchContent_MakeAvailable(nlohmann_json cli11 fmt)
 
+find_package(OpenMP REQUIRED)
+
 option(QMC_LINEINFO "Emit -lineinfo for Nsight Compute" OFF)
 
 add_library(qmc_harness
@@ -58,13 +60,35 @@ if (QMC_LINEINFO)
     target_compile_options(qmc_harness PRIVATE $<$<COMPILE_LANGUAGE:CUDA>:-lineinfo>)
 endif ()
 
+add_library(qmc_cpu_reference
+        cpu-reference/hydrogen.cpp
+        cpu-reference/original_buggy.cpp
+)
+target_include_directories(qmc_cpu_reference PUBLIC ${CMAKE_SOURCE_DIR})
+target_compile_definitions(qmc_cpu_reference PUBLIC
+        QMC_SOURCE_DIR="${CMAKE_SOURCE_DIR}")
+target_link_libraries(qmc_cpu_reference PUBLIC qmc_harness fmt::fmt OpenMP::OpenMP_CXX)
+target_compile_options(qmc_cpu_reference PRIVATE
+        $<$<COMPILE_LANGUAGE:CXX>:-Wall -Wextra -Wpedantic>
+)
+
 add_executable(cuda_qmc_exploration
         main.cpp
         harness/microbench.cu
         harness/stats_smoke.cpp
+        parts/cpu-baseline/src/cpu_bench.cpp
+        parts/cpu-baseline/verify/check_reference.cpp
 )
 target_include_directories(cuda_qmc_exploration PRIVATE ${CMAKE_SOURCE_DIR})
-target_link_libraries(cuda_qmc_exploration PRIVATE qmc_harness CUDA::curand CLI11::CLI11 fmt::fmt)
+target_link_libraries(cuda_qmc_exploration PRIVATE
+        qmc_harness
+        qmc_cpu_reference
+        CUDA::curand
+        CLI11::CLI11
+        fmt::fmt
+        nlohmann_json::nlohmann_json
+        OpenMP::OpenMP_CXX
+)
 set_target_properties(cuda_qmc_exploration PROPERTIES
         CUDA_SEPARABLE_COMPILATION ON
 )
@@ -73,4 +97,4 @@ if (QMC_LINEINFO)
 endif ()
 
 enable_testing()
-add_test(NAME verify-fast COMMAND cuda_qmc_exploration stats-smoke)
+add_test(NAME verify-fast COMMAND cuda_qmc_exploration verify-fast)

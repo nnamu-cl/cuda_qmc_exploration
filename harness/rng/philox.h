@@ -65,6 +65,10 @@ QMC_HOST_DEVICE inline float Uint32ToUnitFloat(std::uint32_t x) {
   return (static_cast<int>(x >> 8) + 0.5f) * (1.0f / 16777216.0f);
 }
 
+QMC_HOST_DEVICE inline double Uint32ToUnitDouble(std::uint32_t x) {
+  return (static_cast<double>(x) + 0.5) * (1.0 / 4294967296.0);
+}
+
 QMC_HOST_DEVICE inline Philox4x32Key SeedToKey(std::uint64_t seed) {
   Philox4x32Key key;
   key.v[0] = static_cast<std::uint32_t>(seed);

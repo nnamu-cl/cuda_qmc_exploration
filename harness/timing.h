@@ -4,6 +4,7 @@
 #include <cuda_runtime.h>
 
 #include <algorithm>
+#include <chrono>
 #include <cstdio>
 #include <cstdlib>
 #include <ranges>
@@ -72,6 +73,24 @@ template <class Launch>
   }
   CheckCudaCall(cudaEventDestroy(start), "cudaEventDestroy(start)");
   CheckCudaCall(cudaEventDestroy(stop), "cudaEventDestroy(stop)");
+  result.median_ms = MedianMs(result.reps_ms);
+  return result;
+}
+
+template <class Fn>
+[[nodiscard]] TimingResult TimeHost(const TimingConfig& config, Fn&& fn) {
+  for (int i = 0; i < config.warmup; ++i) {
+    fn();
+  }
+  TimingResult result;
+  result.reps_ms.reserve(static_cast<size_t>(config.reps));
+  for (int i = 0; i < config.reps; ++i) {
+    const auto start = std::chrono::steady_clock::now();
+    fn();
+    const auto stop = std::chrono::steady_clock::now();
+    result.reps_ms.push_back(
+        std::chrono::duration<double, std::milli>(stop - start).count());
+  }
   result.median_ms = MedianMs(result.reps_ms);
   return result;
 }

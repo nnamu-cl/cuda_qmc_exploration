@@ -66,7 +66,7 @@ int Grid(int n) {
 void FillRecord(BenchmarkRecord* rec, const MicrobenchOptions& opt,
                 const TimingResult& timing, double bytes_per_unit,
                 double units) {
-  rec->part = "setup";
+  rec->part = opt.part;
   rec->kernel = opt.kind;
   rec->workload = "microbench";
   rec->count = opt.n;
