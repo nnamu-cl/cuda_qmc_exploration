@@ -78,3 +78,6 @@ build/
 cmake-build-*/
 *.ptx
 .cache/
+# Local working notes - never publish
+/private/
+/AGENTS.md
