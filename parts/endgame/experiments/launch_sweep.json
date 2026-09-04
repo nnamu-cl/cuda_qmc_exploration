@@ -1,0 +1,139 @@
+{
+  "env": {
+    "clocks_locked": true,
+    "clocks_sm_mhz": 1500,
+    "gpu": "NVIDIA GeForce RTX 2070 Super with Max-Q Design"
+  },
+  "experiment": "launch_sweep",
+  "n_samples": 8000000,
+  "part": "endgame",
+  "rows": [
+    {
+      "grid_blocks": 320,
+      "gsamples_per_s": 4.58169160952171,
+      "median_ms": 1.7460799813270569,
+      "occupancy_blocks": 8,
+      "persist_tables": false,
+      "samples_per_thread": 1,
+      "threads": 128
+    },
+    {
+      "grid_blocks": 320,
+      "gsamples_per_s": 3.9418809710360527,
+      "median_ms": 2.02948796749115,
+      "occupancy_blocks": 8,
+      "persist_tables": false,
+      "samples_per_thread": 2,
+      "threads": 128
+    },
+    {
+      "grid_blocks": 320,
+      "gsamples_per_s": 3.770710617643415,
+      "median_ms": 2.121616005897522,
+      "occupancy_blocks": 8,
+      "persist_tables": false,
+      "samples_per_thread": 4,
+      "threads": 128
+    },
+    {
+      "grid_blocks": 320,
+      "gsamples_per_s": 3.569618336925441,
+      "median_ms": 2.2411359548568726,
+      "occupancy_blocks": 8,
+      "persist_tables": false,
+      "samples_per_thread": 8,
+      "threads": 128
+    },
+    {
+      "grid_blocks": 160,
+      "gsamples_per_s": 4.123099235819065,
+      "median_ms": 1.940288007259369,
+      "occupancy_blocks": 4,
+      "persist_tables": false,
+      "samples_per_thread": 1,
+      "threads": 256
+    },
+    {
+      "grid_blocks": 160,
+      "gsamples_per_s": 4.043736970311804,
+      "median_ms": 1.9783680438995361,
+      "occupancy_blocks": 4,
+      "persist_tables": false,
+      "samples_per_thread": 2,
+      "threads": 256
+    },
+    {
+      "grid_blocks": 160,
+      "gsamples_per_s": 3.8870879999258596,
+      "median_ms": 2.058095932006836,
+      "occupancy_blocks": 4,
+      "persist_tables": false,
+      "samples_per_thread": 4,
+      "threads": 256
+    },
+    {
+      "grid_blocks": 160,
+      "gsamples_per_s": 3.761406542122077,
+      "median_ms": 2.126863956451416,
+      "occupancy_blocks": 4,
+      "persist_tables": true,
+      "samples_per_thread": 4,
+      "threads": 256
+    },
+    {
+      "grid_blocks": 160,
+      "gsamples_per_s": 3.693280289937592,
+      "median_ms": 2.1660960912704468,
+      "occupancy_blocks": 4,
+      "persist_tables": false,
+      "samples_per_thread": 8,
+      "threads": 256
+    },
+    {
+      "grid_blocks": 80,
+      "gsamples_per_s": 4.097823311275586,
+      "median_ms": 1.9522559642791748,
+      "occupancy_blocks": 2,
+      "persist_tables": false,
+      "samples_per_thread": 1,
+      "threads": 512
+    },
+    {
+      "grid_blocks": 80,
+      "gsamples_per_s": 3.9799727653996153,
+      "median_ms": 2.0100640058517456,
+      "occupancy_blocks": 2,
+      "persist_tables": false,
+      "samples_per_thread": 2,
+      "threads": 512
+    },
+    {
+      "grid_blocks": 80,
+      "gsamples_per_s": 3.974942099969443,
+      "median_ms": 2.0126079320907593,
+      "occupancy_blocks": 2,
+      "persist_tables": false,
+      "samples_per_thread": 4,
+      "threads": 512
+    },
+    {
+      "grid_blocks": 80,
+      "gsamples_per_s": 3.707053724022496,
+      "median_ms": 2.1580480337142944,
+      "occupancy_blocks": 2,
+      "persist_tables": false,
+      "samples_per_thread": 8,
+      "threads": 512
+    },
+    {
+      "grid_blocks": 31250,
+      "gsamples_per_s": 4.086035549902565,
+      "kernel": "philox",
+      "median_ms": 1.9578880071640015,
+      "occupancy_blocks": 0,
+      "persist_tables": false,
+      "samples_per_thread": 1,
+      "threads": 256
+    }
+  ]
+}

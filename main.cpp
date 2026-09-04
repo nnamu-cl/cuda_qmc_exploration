@@ -12,6 +12,8 @@
 #include "parts/alias-method/verify/check_alias.h"
 #include "parts/inverse-table/src/sampler.h"
 #include "parts/inverse-table/verify/check_inverse.h"
+#include "parts/endgame/src/sampler.h"
+#include "parts/endgame/verify/check_endgame.h"
 #include "parts/naive-cuda/src/sampler.h"
 #include "parts/naive-cuda/verify/check_naive.h"
 
@@ -149,12 +151,77 @@ int main(int argc, char** argv) {
   alias_hole->add_option("--n", hole_n, "samples")->capture_default_str();
   alias_hole->add_option("--out", hole_out, "write JSON here");
 
+  qmc::endgame::BenchOptions endgame;
+  std::string endgame_kernel = "philox";
+  auto* endgame_bench =
+      app.add_subcommand("endgame-bench", "Philox alias sampler throughput");
+  endgame_bench->add_option("--n", endgame.n, "samples")->capture_default_str();
+  endgame_bench->add_option("--kernel", endgame_kernel,
+                            "philox | philox_ilp | thrust_alias")
+      ->capture_default_str();
+  endgame_bench->add_option("--principal", endgame.principal, "n quantum number")
+      ->capture_default_str();
+  endgame_bench->add_option("--l", endgame.l, "l quantum number")
+      ->capture_default_str();
+  endgame_bench->add_option("--m", endgame.m, "m quantum number")
+      ->capture_default_str();
+  endgame_bench->add_option("--threads", endgame.launch.threads, "block size")
+      ->capture_default_str();
+  endgame_bench
+      ->add_option("--samples-per-thread", endgame.launch.samples_per_thread,
+                   "independent samples in flight (K8)")
+      ->capture_default_str();
+  endgame_bench->add_flag("--persist-tables", endgame.launch.persist_tables,
+                          "L2 persistence hint on the radial alias table");
+  endgame_bench->add_option("--out", endgame.out_path, "write JSON here");
+  bool endgame_official = false;
+  endgame_bench->add_flag("--official", endgame_official,
+                          "refuse JSON unless verify-full passed");
+
+  std::string sweep_out;
+  int sweep_n = 8000000;
+  auto* endgame_sweep = app.add_subcommand(
+      "endgame-sweep", "S x block-size launch table for Philox ILP");
+  endgame_sweep->add_option("--n", sweep_n, "samples")->capture_default_str();
+  endgame_sweep->add_option("--out", sweep_out, "write JSON here");
+
+  std::string bits_out;
+  int bits_n = 4096;
+  auto* endgame_bits = app.add_subcommand(
+      "endgame-bits", "Philox host/device/cuRAND bit check");
+  endgame_bits->add_option("--n", bits_n, "counters")->capture_default_str();
+  endgame_bits->add_option("--out", bits_out, "write JSON here");
+
+  std::string dump_prefix;
+  int dump_n = 1000000;
+  int dump_principal = 3;
+  int dump_l = 1;
+  int dump_m = -1;
+  auto* endgame_dump = app.add_subcommand(
+      "endgame-dump", "JSON metadata + float4 sample binary");
+  endgame_dump->add_option("--n", dump_n, "samples")->capture_default_str();
+  endgame_dump->add_option("--prefix", dump_prefix, "output prefix")->required();
+  endgame_dump->add_option("--principal", dump_principal, "n quantum number")
+      ->capture_default_str();
+  endgame_dump->add_option("--l", dump_l, "l quantum number")
+      ->capture_default_str();
+  endgame_dump->add_option("--m", dump_m, "m quantum number")
+      ->capture_default_str();
+
   CLI11_PARSE(app, argc, argv);
   bench.scratch = !official;
   cpu.scratch = !cpu_official;
   naive.scratch = !naive_official;
   inverse.scratch = !inverse_official;
   alias.scratch = !alias_official;
+  endgame.scratch = !endgame_official;
+  if (endgame_kernel == "philox_ilp" || endgame_kernel == "ilp") {
+    endgame.kernel = qmc::endgame::KernelKind::PhiloxIlp;
+  } else if (endgame_kernel == "thrust_alias" || endgame_kernel == "thrust") {
+    endgame.kernel = qmc::endgame::KernelKind::ThrustAlias;
+  } else {
+    endgame.kernel = qmc::endgame::KernelKind::Philox;
+  }
   if (alias_kernel == "alias_uniform" || alias_kernel == "uniform") {
     alias.kernel = qmc::alias::KernelKind::Uniform;
   } else if (alias_kernel == "alias_float4" || alias_kernel == "float4") {
@@ -188,14 +255,20 @@ int main(int argc, char** argv) {
     const int gpu_rc = qmc::naive::verify::RunVerify(false);
     const int inv_rc = qmc::inverse::verify::RunVerify(false);
     const int alias_rc = qmc::alias::verify::RunVerify(false);
-    return cpu_rc != 0 || gpu_rc != 0 || inv_rc != 0 || alias_rc != 0 ? 1 : 0;
+    const int end_rc = qmc::endgame::verify::RunVerify(false);
+    return cpu_rc != 0 || gpu_rc != 0 || inv_rc != 0 || alias_rc != 0 ||
+                   end_rc != 0
+               ? 1
+               : 0;
   }
   if (verify_full->parsed()) {
     const int cpu_rc = qmc::cpu::verify::RunVerify(true);
     const int gpu_rc = qmc::naive::verify::RunVerify(true);
     const int inv_rc = qmc::inverse::verify::RunVerify(true);
     const int alias_rc = qmc::alias::verify::RunVerify(true);
-    if (cpu_rc != 0 || gpu_rc != 0 || inv_rc != 0 || alias_rc != 0) {
+    const int end_rc = qmc::endgame::verify::RunVerify(true);
+    if (cpu_rc != 0 || gpu_rc != 0 || inv_rc != 0 || alias_rc != 0 ||
+        end_rc != 0) {
       qmc::harness::ClearVerifyFull();
       return 1;
     }
@@ -234,6 +307,19 @@ int main(int argc, char** argv) {
   }
   if (alias_hole->parsed()) {
     return qmc::alias::RunNodeHole(hole_out, hole_n, true);
+  }
+  if (endgame_bench->parsed()) {
+    return qmc::endgame::RunEndgameBench(endgame);
+  }
+  if (endgame_sweep->parsed()) {
+    return qmc::endgame::RunLaunchSweep(sweep_out, sweep_n, true);
+  }
+  if (endgame_bits->parsed()) {
+    return qmc::endgame::RunBitCheck(bits_out, bits_n, true);
+  }
+  if (endgame_dump->parsed()) {
+    return qmc::endgame::RunSampleDump(
+        dump_prefix, dump_n, {dump_principal, dump_l, dump_m}, 0xC0FFEEULL);
   }
   fmt::print(stderr, "no subcommand\n");
   return 2;

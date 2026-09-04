@@ -8,11 +8,14 @@ KERNEL_COLORS = {
     "shared_cdf": "#54a24b",
     "inverse_lerp": "#88d27a",
     "alias": "#b279a2",
+    "alias_linear": "#b279a2",
     "fused_float4": "#ff9da6",
     "philox": "#e45756",
     "philox_ilp": "#d67195",
     "curand_raw": "#7f7f7f",
+    "curand_philox": "#7f7f7f",
     "thrust_curand": "#bab0ac",
+    "thrust_alias": "#bab0ac",
     "bw_roof": "#000000",
 }
 

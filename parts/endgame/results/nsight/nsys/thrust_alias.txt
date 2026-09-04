@@ -1,0 +1,11 @@
+Generating SQLite file parts/endgame/results/nsight/nsys/thrust_alias.sqlite from parts/endgame/results/nsight/nsys/thrust_alias.nsys-rep
+Processing [parts/endgame/results/nsight/nsys/thrust_alias.sqlite] with [/usr/lib/nsight-systems/target-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
+
+ Time (%)  Total Time (ns)  Instances  Avg (ns)   Med (ns)   Min (ns)  Max (ns)  StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  ---------  ---------  --------  --------  -----------  ----------------------------------------------------------------------------------------------------
+     63.4        5,532,030         23  240,523.0  240,477.0   239,037   242,589      1,083.7  void cub::_V_300402_SM_750::detail::for_each::static_kernel<cub::_V_300402_SM_750::detail::for_each…
+     31.8        2,773,086         23  120,569.0  118,751.0   109,727   147,422      7,552.3  void gen_sequenced_Philox<curandStatePhilox4_32_10, float4, int, &curand_uniform_noargs_philox<cura…
+      4.9          425,502         23   18,500.1   18,432.0    18,048    20,512        461.8  generate_seed_pseudo(unsigned long long, unsigned long long, curandStatePhilox4_32_10 *)            
+

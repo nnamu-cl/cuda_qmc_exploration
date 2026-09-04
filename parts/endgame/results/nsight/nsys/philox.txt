@@ -1,0 +1,9 @@
+Generating SQLite file parts/endgame/results/nsight/nsys/philox.sqlite from parts/endgame/results/nsight/nsys/philox.nsys-rep
+Processing [parts/endgame/results/nsight/nsys/philox.sqlite] with [/usr/lib/nsight-systems/target-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
+
+ Time (%)  Total Time (ns)  Instances  Avg (ns)   Med (ns)   Min (ns)  Max (ns)  StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  ---------  ---------  --------  --------  -----------  ----------------------------------------------------------------------------------------------------
+    100.0        4,900,161         23  213,050.5  213,022.0   212,254   215,133        515.9  qmc::endgame::<unnamed>::SamplePhiloxKernel(const qmc::alias::AliasBin *, int, const qmc::alias::Al…
+

@@ -23,7 +23,7 @@ Need a new transfer shape (async stream, 2D, pitched)? Add it here. Do not open-
 - Env: `CaptureEnv` — clocks, git, GPU name
 - Verify gate: `RecordVerifyFullOk` / `ClearVerifyFull` / `VerifyFullPassed`
 - Stats: `harness/stats/` KS, χ², moments
-- RNG: `harness/rng/philox.h` (CPU). Device XORWOW is cuRAND, not a home-rolled generator
+- RNG: `harness/rng/philox.h` (host/device Philox4x32-10). Endgame kernels include this header and call it statelessly. Device XORWOW remains cuRAND for Parts 2–4.
 - Sample dump: `dump.h` (JSON metadata + float4 binary)
 
 ## Libraries (FetchContent, already pinned)

@@ -1,0 +1,9 @@
+{
+  "curand_host_api_mismatch": 16380,
+  "experiment": "philox_bit_check",
+  "host_device_mismatch": 0,
+  "launch_config_reproducible": true,
+  "n": 4096,
+  "note": "Host vs device uses the same Random123 rounds in harness/rng/philox.h. cuRAND host API packing is a different counter layout; mismatch is expected and recorded, not a rewrite trigger.",
+  "part": "endgame"
+}

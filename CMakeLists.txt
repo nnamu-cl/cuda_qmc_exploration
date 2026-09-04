@@ -99,6 +99,13 @@ add_executable(cuda_qmc_exploration
         parts/alias-method/experiments/interior.cpp
         parts/alias-method/experiments/node_hole.cpp
         parts/alias-method/verify/check_alias.cpp
+        parts/endgame/src/philox_sample.cu
+        parts/endgame/src/ilp_launch.cu
+        parts/endgame/src/bench.cpp
+        parts/endgame/experiments/thrust_pipeline.cu
+        parts/endgame/experiments/launch_sweep.cpp
+        parts/endgame/experiments/bit_check.cpp
+        parts/endgame/verify/check_endgame.cpp
 )
 target_include_directories(cuda_qmc_exploration PRIVATE ${CMAKE_SOURCE_DIR})
 target_link_libraries(cuda_qmc_exploration PRIVATE

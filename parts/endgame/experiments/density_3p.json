@@ -1,0 +1,13 @@
+{
+  "binary": "parts/endgame/experiments/density_3p.bin",
+  "bytes": 3200000,
+  "dtype": "float32",
+  "layout": "float4_xyzw",
+  "n": 200000,
+  "nlm": [
+    3,
+    1,
+    -1
+  ],
+  "seed": 12648430
+}
