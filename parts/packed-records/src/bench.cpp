@@ -24,6 +24,34 @@ int MAbs(int m) { return m < 0 ? -m : m; }
 // repo published modelled GB/s above the copy roof and that must not recur.
 constexpr double kBytesPerSample = 16.0;
 
+// An identical cell measured repeatedly in one process decays (10.40 down to
+// ~6.8-7.6 Gsamples/s); a fresh process reads 10.40 again. The cause is not
+// allocation churn (both alloc_churn arms decay) and not the process boundary:
+// it is the 80 W power governor. This kernel pulls ~95 W at full clocks, and
+// once the governor's short-window average trips, SM clocks bounce as low as
+// 750 MHz (nvidia-smi caught 750 MHz / 95.6 W / throttle 0x4 SW_POWER_CAP
+// mid-rep) while nvidia-smi -lgc still reports a 1500 MHz "lock" — the lock is
+// only a ceiling. Short cells (reps <= ~1.6 ms, n <= 24M) never trip it; the
+// ~2 s of process setup is an idle window that drains it, which is why fresh
+// processes looked magic. Published cells therefore run one kernel per process
+// (as K1-K8 did), n <= 8M for series numbers. See experiments/alloc_churn.json
+// and experiments/footprint_ladder.json. The scratch flag stays only so the
+// churn experiment can reproduce both arms.
+bool& ScratchReuseFlag() {
+  static bool on = true;
+  return on;
+}
+
+qmc::alias::PackedXyzw* PackedScratch(std::size_t count) {
+  static qmc::harness::DeviceUnique<qmc::alias::PackedXyzw> buffer;
+  static std::size_t capacity = 0;
+  if (count > capacity) {
+    buffer = qmc::harness::DeviceAlloc<qmc::alias::PackedXyzw>(count);
+    capacity = count;
+  }
+  return buffer.get();
+}
+
 struct DeviceRun {
   qmc::harness::DeviceUnique<AliasDraw> radial_draw;
   qmc::harness::DeviceUnique<AliasDraw> theta_draw;
@@ -101,6 +129,8 @@ DeviceRun Prepare(KernelKind kind, qmc::cpu::QuantumNumbers qn, int n,
     run.out.r = run.r.get();
     run.out.theta = run.th.get();
     run.out.phi = run.phi.get();
+  } else if (ScratchReuseFlag()) {
+    run.out.packed = PackedScratch(static_cast<size_t>(n));
   } else {
     run.packed =
         qmc::harness::DeviceAlloc<qmc::alias::PackedXyzw>(static_cast<size_t>(n));
@@ -148,6 +178,8 @@ void Pull(std::vector<double>* dst, const qmc::harness::DeviceUnique<T>& src,
 }
 
 }  // namespace
+
+void SetScratchReuse(bool on) { ScratchReuseFlag() = on; }
 
 void DrawGpu(KernelKind kind, qmc::cpu::QuantumNumbers qn, std::uint64_t seed,
              int n, GpuDraw* out, const LaunchConfig& cfg) {

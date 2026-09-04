@@ -255,6 +255,13 @@ int main(int argc, char** argv) {
   packed_layout->add_option("--n", layout_n, "samples")->capture_default_str();
   packed_layout->add_option("--out", layout_out, "write JSON here");
 
+  std::string churn_out;
+  int churn_n = 8000000;
+  auto* packed_churn = app.add_subcommand(
+      "packed-churn", "Output-buffer allocation churn vs a reused scratch");
+  packed_churn->add_option("--n", churn_n, "samples")->capture_default_str();
+  packed_churn->add_option("--out", churn_out, "write JSON here");
+
   CLI11_PARSE(app, argc, argv);
   bench.scratch = !official;
   cpu.scratch = !cpu_official;
@@ -381,6 +388,9 @@ int main(int argc, char** argv) {
   }
   if (packed_orbitals->parsed()) {
     return qmc::packed::RunOrbitalSweep(orbital_out, orbital_n, true);
+  }
+  if (packed_churn->parsed()) {
+    return qmc::packed::RunAllocChurn(churn_out, churn_n, true);
   }
   if (packed_layout->parsed()) {
     return qmc::packed::RunLayoutSweep(layout_out, layout_n, true);

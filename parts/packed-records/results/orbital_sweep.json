@@ -1,0 +1,75 @@
+{
+  "experiment": "orbital_sweep",
+  "part": "packed-records",
+  "kernel": "packed_shared",
+  "threads": 512,
+  "n_samples": 8000000,
+  "note": "one process per orbital; verify matrix; packed_shared t=512",
+  "env": {
+    "clocks_locked": false,
+    "clocks_mem_mhz": 5500,
+    "clocks_sm_mhz": 1500,
+    "cuda": "13.3",
+    "driver": "610.57.04",
+    "git": "f585552",
+    "gpu": "NVIDIA GeForce RTX 2070 Super with Max-Q Design",
+    "power_w": 39.88,
+    "temperature_c": 63
+  },
+  "rows": [
+    {
+      "quantum_numbers": [
+        1,
+        0,
+        0
+      ],
+      "gsamples_per_s": 14.708477791433499,
+      "median_ms": 0.5439040064811707
+    },
+    {
+      "quantum_numbers": [
+        2,
+        0,
+        0
+      ],
+      "gsamples_per_s": 14.640431323003302,
+      "median_ms": 0.5464319884777069
+    },
+    {
+      "quantum_numbers": [
+        2,
+        1,
+        1
+      ],
+      "gsamples_per_s": 13.241174435695385,
+      "median_ms": 0.6041760146617889
+    },
+    {
+      "quantum_numbers": [
+        3,
+        1,
+        -1
+      ],
+      "gsamples_per_s": 13.021850291495202,
+      "median_ms": 0.6143520176410675
+    },
+    {
+      "quantum_numbers": [
+        4,
+        2,
+        0
+      ],
+      "gsamples_per_s": 12.67684225111359,
+      "median_ms": 0.6310719847679138
+    },
+    {
+      "quantum_numbers": [
+        5,
+        0,
+        0
+      ],
+      "gsamples_per_s": 12.131505321407403,
+      "median_ms": 0.6594400107860565
+    }
+  ]
+}

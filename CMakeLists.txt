@@ -110,6 +110,7 @@ add_executable(cuda_qmc_exploration
         parts/packed-records/src/packed_sample.cu
         parts/packed-records/src/bench.cpp
         parts/packed-records/experiments/orbital_sweep.cpp
+        parts/packed-records/experiments/alloc_churn.cpp
         parts/packed-records/experiments/layout_sweep.cpp
         parts/packed-records/verify/check_packed.cpp
 )

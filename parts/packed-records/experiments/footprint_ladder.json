@@ -1,0 +1,81 @@
+{
+  "experiment": "footprint_ladder",
+  "part": "packed-records",
+  "note": "one process per cell; throughput vs output-buffer footprint; cliff between 384 MiB and 512 MiB on both kernels",
+  "env": {
+    "clocks_locked": false,
+    "clocks_mem_mhz": 5500,
+    "clocks_sm_mhz": 1305,
+    "cuda": "13.3",
+    "driver": "610.57.04",
+    "git": "f585552",
+    "gpu": "NVIDIA GeForce RTX 2070 Super with Max-Q Design",
+    "power_w": 53.45,
+    "temperature_c": 62
+  },
+  "rows": [
+    {
+      "kernel": "packed_shared",
+      "n_samples": 8000000,
+      "output_mib": 122.0703125,
+      "gsamples_per_s": 14.785025320417862,
+      "median_ms": 0.5410880148410797
+    },
+    {
+      "kernel": "packed_shared",
+      "n_samples": 16000000,
+      "output_mib": 244.140625,
+      "gsamples_per_s": 14.847809916495972,
+      "median_ms": 1.0776000022888184
+    },
+    {
+      "kernel": "packed_shared",
+      "n_samples": 24000000,
+      "output_mib": 366.2109375,
+      "gsamples_per_s": 15.017420256226904,
+      "median_ms": 1.598143994808197
+    },
+    {
+      "kernel": "packed_shared",
+      "n_samples": 32000000,
+      "output_mib": 488.28125,
+      "gsamples_per_s": 11.855083242253214,
+      "median_ms": 2.6992640495300293
+    },
+    {
+      "kernel": "packed_shared",
+      "n_samples": 48000000,
+      "output_mib": 732.421875,
+      "gsamples_per_s": 9.074849233384704,
+      "median_ms": 5.289344072341919
+    },
+    {
+      "kernel": "packed_shared",
+      "n_samples": 64000000,
+      "output_mib": 976.5625,
+      "gsamples_per_s": 8.738699698929054,
+      "median_ms": 7.323744058609009
+    },
+    {
+      "kernel": "philox",
+      "n_samples": 24000000,
+      "output_mib": 366.2109375,
+      "gsamples_per_s": 3.847406739368781,
+      "median_ms": 6.2379679679870605
+    },
+    {
+      "kernel": "philox",
+      "n_samples": 32000000,
+      "output_mib": 488.28125,
+      "gsamples_per_s": 3.9052889424448662,
+      "median_ms": 8.194015979766846
+    },
+    {
+      "kernel": "philox",
+      "n_samples": 48000000,
+      "output_mib": 732.421875,
+      "gsamples_per_s": 3.9153857837565043,
+      "median_ms": 12.259328365325928
+    }
+  ]
+}

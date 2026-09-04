@@ -147,9 +147,15 @@ void DrawGpu(KernelKind kind, qmc::cpu::QuantumNumbers qn, std::uint64_t seed,
                                    std::uint64_t seed, int n,
                                    const LaunchConfig& cfg = {});
 
+// Timed runs reuse one process-lifetime output buffer by default; repeated
+// cudaMalloc/cudaFree of ~128 MB measurably slows later cells in the same
+// process. Turn it off only to reproduce that effect.
+void SetScratchReuse(bool on);
+
 int RunPackedBench(const BenchOptions& opt);
 int RunOrbitalSweep(const std::string& out_path, int n, bool scratch);
 int RunLayoutSweep(const std::string& out_path, int n, bool scratch);
+int RunAllocChurn(const std::string& out_path, int n, bool scratch);
 
 }  // namespace qmc::packed
 

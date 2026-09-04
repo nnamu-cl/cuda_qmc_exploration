@@ -1,0 +1,213 @@
+{
+  "bytes_per_sample": 16.0,
+  "env": {
+    "clocks_locked": true,
+    "clocks_mem_mhz": 5500,
+    "clocks_sm_mhz": 1500,
+    "git": "f585552",
+    "gpu": "NVIDIA GeForce RTX 2070 Super with Max-Q Design"
+  },
+  "experiment": "layout_sweep",
+  "n_samples": 8000000,
+  "part": "packed-records",
+  "rows": [
+    {
+      "achieved_gbps": 166.3132484903424,
+      "grid_blocks": 62500,
+      "gsamples_per_s": 10.3945780306464,
+      "kernel": "packed",
+      "median_ms": 0.7696320116519928,
+      "occupancy_blocks": 0,
+      "samples_per_thread": 1,
+      "shared_bytes": 0,
+      "threads": 128
+    },
+    {
+      "achieved_gbps": 134.51255851066813,
+      "grid_blocks": 31250,
+      "gsamples_per_s": 8.407034906916758,
+      "kernel": "packed",
+      "median_ms": 0.9515840113162994,
+      "occupancy_blocks": 0,
+      "samples_per_thread": 1,
+      "shared_bytes": 0,
+      "threads": 256
+    },
+    {
+      "achieved_gbps": 140.2647518493534,
+      "grid_blocks": 15625,
+      "gsamples_per_s": 8.766546990584587,
+      "kernel": "packed",
+      "median_ms": 0.912559986114502,
+      "occupancy_blocks": 0,
+      "samples_per_thread": 1,
+      "shared_bytes": 0,
+      "threads": 512
+    },
+    {
+      "achieved_gbps": 120.81854373698341,
+      "grid_blocks": 7813,
+      "gsamples_per_s": 7.551158983561463,
+      "kernel": "packed",
+      "median_ms": 1.059440016746521,
+      "occupancy_blocks": 0,
+      "samples_per_thread": 1,
+      "shared_bytes": 0,
+      "threads": 1024
+    },
+    {
+      "achieved_gbps": 123.4682290111324,
+      "grid_blocks": 62500,
+      "gsamples_per_s": 7.716764313195775,
+      "kernel": "packed_linear",
+      "median_ms": 1.0367039442062378,
+      "occupancy_blocks": 0,
+      "samples_per_thread": 1,
+      "shared_bytes": 0,
+      "threads": 128
+    },
+    {
+      "achieved_gbps": 121.37026792937921,
+      "grid_blocks": 31250,
+      "gsamples_per_s": 7.585641745586201,
+      "kernel": "packed_linear",
+      "median_ms": 1.0546240210533142,
+      "occupancy_blocks": 0,
+      "samples_per_thread": 1,
+      "shared_bytes": 0,
+      "threads": 256
+    },
+    {
+      "achieved_gbps": 109.94296683726257,
+      "grid_blocks": 15625,
+      "gsamples_per_s": 6.871435427328911,
+      "kernel": "packed_linear",
+      "median_ms": 1.1642400026321411,
+      "occupancy_blocks": 0,
+      "samples_per_thread": 1,
+      "shared_bytes": 0,
+      "threads": 512
+    },
+    {
+      "achieved_gbps": 93.88899931708622,
+      "grid_blocks": 7813,
+      "gsamples_per_s": 5.868062457317889,
+      "kernel": "packed_linear",
+      "median_ms": 1.363312005996704,
+      "occupancy_blocks": 0,
+      "samples_per_thread": 1,
+      "shared_bytes": 0,
+      "threads": 1024
+    },
+    {
+      "achieved_gbps": 112.36428007827625,
+      "grid_blocks": 40,
+      "gsamples_per_s": 7.022767504892266,
+      "kernel": "packed_shared",
+      "median_ms": 1.1391520500183105,
+      "occupancy_blocks": 1,
+      "samples_per_thread": 1,
+      "shared_bytes": 49136,
+      "threads": 256
+    },
+    {
+      "achieved_gbps": 196.76808123454563,
+      "grid_blocks": 40,
+      "gsamples_per_s": 12.298005077159102,
+      "kernel": "packed_shared",
+      "median_ms": 0.6505120098590851,
+      "occupancy_blocks": 1,
+      "samples_per_thread": 1,
+      "shared_bytes": 49136,
+      "threads": 512
+    },
+    {
+      "achieved_gbps": 175.10067737774565,
+      "grid_blocks": 40,
+      "gsamples_per_s": 10.943792336109103,
+      "kernel": "packed_shared",
+      "median_ms": 0.7310080230236053,
+      "occupancy_blocks": 1,
+      "samples_per_thread": 1,
+      "shared_bytes": 49136,
+      "threads": 1024
+    },
+    {
+      "achieved_gbps": 140.5851823726115,
+      "grid_blocks": 160,
+      "gsamples_per_s": 8.78657389828822,
+      "kernel": "packed_ilp",
+      "median_ms": 0.9104800224304199,
+      "occupancy_blocks": 4,
+      "samples_per_thread": 1,
+      "shared_bytes": 0,
+      "threads": 256
+    },
+    {
+      "achieved_gbps": 131.04872013550082,
+      "grid_blocks": 80,
+      "gsamples_per_s": 8.190545008468801,
+      "kernel": "packed_ilp",
+      "median_ms": 0.9767359793186188,
+      "occupancy_blocks": 2,
+      "samples_per_thread": 1,
+      "shared_bytes": 0,
+      "threads": 512
+    },
+    {
+      "achieved_gbps": 130.75313759688208,
+      "grid_blocks": 40,
+      "gsamples_per_s": 8.17207109980513,
+      "kernel": "packed_ilp",
+      "median_ms": 0.9789440035820007,
+      "occupancy_blocks": 1,
+      "samples_per_thread": 1,
+      "shared_bytes": 0,
+      "threads": 1024
+    },
+    {
+      "achieved_gbps": 119.44934007839274,
+      "grid_blocks": 280,
+      "gsamples_per_s": 7.465583754899546,
+      "kernel": "packed_ilp",
+      "median_ms": 1.0715839862823486,
+      "occupancy_blocks": 7,
+      "samples_per_thread": 2,
+      "shared_bytes": 0,
+      "threads": 128
+    },
+    {
+      "achieved_gbps": 127.46769228833286,
+      "grid_blocks": 320,
+      "gsamples_per_s": 7.9667307680208035,
+      "kernel": "packed_ilp",
+      "median_ms": 1.0041760206222534,
+      "occupancy_blocks": 8,
+      "samples_per_thread": 4,
+      "shared_bytes": 0,
+      "threads": 128
+    },
+    {
+      "achieved_gbps": 130.2337711263072,
+      "grid_blocks": 120,
+      "gsamples_per_s": 8.1396106953942,
+      "kernel": "packed_ilp",
+      "median_ms": 0.9828479886054993,
+      "occupancy_blocks": 3,
+      "samples_per_thread": 2,
+      "shared_bytes": 0,
+      "threads": 256
+    },
+    {
+      "achieved_gbps": 127.14153853149132,
+      "grid_blocks": 160,
+      "gsamples_per_s": 7.9463461582182076,
+      "kernel": "packed_ilp",
+      "median_ms": 1.0067520141601563,
+      "occupancy_blocks": 4,
+      "samples_per_thread": 4,
+      "shared_bytes": 0,
+      "threads": 256
+    }
+  ]
+}

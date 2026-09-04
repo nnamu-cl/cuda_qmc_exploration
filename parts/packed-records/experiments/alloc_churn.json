@@ -1,0 +1,86 @@
+{
+  "arms": [
+    {
+      "cells": [
+        {
+          "gsamples_per_s": 10.405827392994135,
+          "median_ms": 0.7687999904155731,
+          "rep": 0
+        },
+        {
+          "gsamples_per_s": 9.928711943454354,
+          "median_ms": 0.8057439923286438,
+          "rep": 1
+        },
+        {
+          "gsamples_per_s": 8.239675858851262,
+          "median_ms": 0.970911979675293,
+          "rep": 2
+        },
+        {
+          "gsamples_per_s": 6.797264680101797,
+          "median_ms": 1.1769440174102783,
+          "rep": 3
+        },
+        {
+          "gsamples_per_s": 8.057368329029785,
+          "median_ms": 0.9928800165653229,
+          "rep": 4
+        },
+        {
+          "gsamples_per_s": 7.567387537087706,
+          "median_ms": 1.0571680068969727,
+          "rep": 5
+        }
+      ],
+      "reuse_scratch": false
+    },
+    {
+      "cells": [
+        {
+          "gsamples_per_s": 8.000896077378355,
+          "median_ms": 0.999888002872467,
+          "rep": 0
+        },
+        {
+          "gsamples_per_s": 8.369041181717146,
+          "median_ms": 0.9559040069580078,
+          "rep": 1
+        },
+        {
+          "gsamples_per_s": 7.939406314957592,
+          "median_ms": 1.0076320171356201,
+          "rep": 2
+        },
+        {
+          "gsamples_per_s": 8.06243537425468,
+          "median_ms": 0.9922560155391693,
+          "rep": 3
+        },
+        {
+          "gsamples_per_s": 8.101101918198612,
+          "median_ms": 0.9875199794769287,
+          "rep": 4
+        },
+        {
+          "gsamples_per_s": 6.847439056786291,
+          "median_ms": 1.1683200001716614,
+          "rep": 5
+        }
+      ],
+      "reuse_scratch": true
+    }
+  ],
+  "env": {
+    "clocks_locked": true,
+    "clocks_mem_mhz": 5500,
+    "clocks_sm_mhz": 1500,
+    "git": "f585552",
+    "gpu": "NVIDIA GeForce RTX 2070 Super with Max-Q Design"
+  },
+  "experiment": "alloc_churn",
+  "kernel": "packed",
+  "n_samples": 8000000,
+  "part": "packed-records",
+  "threads": 128
+}
