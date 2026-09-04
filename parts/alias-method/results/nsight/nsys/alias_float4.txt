@@ -1,0 +1,10 @@
+Generating SQLite file parts/alias-method/results/nsight/nsys/alias_float4.sqlite from parts/alias-method/results/nsight/nsys/alias_float4.nsys-rep
+Processing [parts/alias-method/results/nsight/nsys/alias_float4.sqlite] with [/usr/lib/nsight-systems/target-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
+
+ Time (%)  Total Time (ns)  Instances    Avg (ns)      Med (ns)     Min (ns)    Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  ------------  ------------  ----------  ----------  -----------  ----------------------------------------------------------------------------------------------------
+     82.4       52,043,271          3  17,347,757.0  17,206,873.0  17,112,761  17,723,637    328,905.2  qmc::naive::<unnamed>::SetupXorwowKernel(curandStateXORWOW *, unsigned long long, int)              
+     17.6       11,080,073         23     481,742.3     481,468.0     479,292     484,380      1,362.3  void qmc::alias::<unnamed>::SampleAliasKernel<(bool)1, (bool)1>(const qmc::alias::AliasBin *, int, …
+

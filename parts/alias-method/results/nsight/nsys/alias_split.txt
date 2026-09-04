@@ -1,0 +1,11 @@
+Generating SQLite file parts/alias-method/results/nsight/nsys/alias_split.sqlite from parts/alias-method/results/nsight/nsys/alias_split.nsys-rep
+Processing [parts/alias-method/results/nsight/nsys/alias_split.sqlite] with [/usr/lib/nsight-systems/target-linux-x64/reports/cuda_gpu_kern_sum.py]... 
+
+ ** CUDA GPU Kernel Summary (cuda_gpu_kern_sum):
+
+ Time (%)  Total Time (ns)  Instances    Avg (ns)      Med (ns)     Min (ns)    Max (ns)   StdDev (ns)                                                  Name                                                
+ --------  ---------------  ---------  ------------  ------------  ----------  ----------  -----------  ----------------------------------------------------------------------------------------------------
+     80.0       55,377,699          3  18,459,233.0  18,275,565.0  18,172,974  18,929,160    410,188.7  qmc::naive::<unnamed>::SetupXorwowKernel(curandStateXORWOW *, unsigned long long, int)              
+     17.0       11,769,411         23     511,713.5     512,124.0     507,164     514,139      1,646.9  qmc::alias::<unnamed>::SampleSplitCoordsKernel(const qmc::alias::AliasBin *, int, const qmc::alias:…
+      3.0        2,104,563         23      91,502.7      91,424.0      88,575      98,463      2,007.6  qmc::alias::<unnamed>::WeightSplitKernel(const float *, const float *, const float *, float *, floa…
+

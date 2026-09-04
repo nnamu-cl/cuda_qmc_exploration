@@ -1,0 +1,31 @@
+{
+  "env": {
+    "clocks_sm_mhz": 1500,
+    "gpu": "NVIDIA GeForce RTX 2070 Super with Max-Q Design"
+  },
+  "experiment": "node_hole",
+  "n_samples": 10000000,
+  "part": "alias-method",
+  "quantum_numbers": [
+    3,
+    1,
+    -1
+  ],
+  "rows": [
+    {
+      "chi2_node_window": 11571.704075901349,
+      "chi2_radial_256": 13396419842.275152,
+      "kernel": "inverse_table"
+    },
+    {
+      "chi2_node_window": 37.049546889928685,
+      "chi2_radial_256": 144.1414355585694,
+      "kernel": "alias_uniform"
+    },
+    {
+      "chi2_node_window": 37.08398599188012,
+      "chi2_radial_256": 144.3080090651291,
+      "kernel": "alias_linear"
+    }
+  ]
+}

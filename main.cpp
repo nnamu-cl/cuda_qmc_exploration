@@ -8,6 +8,8 @@
 #include "harness/verify_gate.h"
 #include "parts/cpu-baseline/src/cpu_bench.h"
 #include "parts/cpu-baseline/verify/check_reference.h"
+#include "parts/alias-method/src/sampler.h"
+#include "parts/alias-method/verify/check_alias.h"
 #include "parts/inverse-table/src/sampler.h"
 #include "parts/inverse-table/verify/check_inverse.h"
 #include "parts/naive-cuda/src/sampler.h"
@@ -114,11 +116,54 @@ int main(int argc, char** argv) {
   inverse_occ->add_option("--n", occ_n, "samples")->capture_default_str();
   inverse_occ->add_option("--out", occ_out, "write JSON here");
 
+  qmc::alias::BenchOptions alias;
+  std::string alias_kernel = "alias_linear";
+  auto* alias_bench =
+      app.add_subcommand("alias-bench", "Walker/Vose alias sampler throughput");
+  alias_bench->add_option("--n", alias.n, "samples")->capture_default_str();
+  alias_bench->add_option("--kernel", alias_kernel,
+                          "alias_uniform | alias_linear | alias_float4 | alias_split")
+      ->capture_default_str();
+  alias_bench->add_option("--principal", alias.principal, "n quantum number")
+      ->capture_default_str();
+  alias_bench->add_option("--l", alias.l, "l quantum number")->capture_default_str();
+  alias_bench->add_option("--m", alias.m, "m quantum number")->capture_default_str();
+  alias_bench->add_option("--threads", alias.launch.threads, "block size")
+      ->capture_default_str();
+  alias_bench->add_option("--out", alias.out_path, "write JSON here");
+  bool alias_official = false;
+  alias_bench->add_flag("--official", alias_official,
+                        "refuse JSON unless verify-full passed");
+
+  std::string interior_out;
+  int interior_n = 1000000;
+  auto* alias_interior = app.add_subcommand(
+      "alias-interior", "Uniform vs linear-within-bin radial χ²");
+  alias_interior->add_option("--n", interior_n, "samples")->capture_default_str();
+  alias_interior->add_option("--out", interior_out, "write JSON here");
+
+  std::string hole_out;
+  int hole_n = 10000000;
+  auto* alias_hole = app.add_subcommand(
+      "alias-hole", "(3,1) node-window χ² vs inverse-table");
+  alias_hole->add_option("--n", hole_n, "samples")->capture_default_str();
+  alias_hole->add_option("--out", hole_out, "write JSON here");
+
   CLI11_PARSE(app, argc, argv);
   bench.scratch = !official;
   cpu.scratch = !cpu_official;
   naive.scratch = !naive_official;
   inverse.scratch = !inverse_official;
+  alias.scratch = !alias_official;
+  if (alias_kernel == "alias_uniform" || alias_kernel == "uniform") {
+    alias.kernel = qmc::alias::KernelKind::Uniform;
+  } else if (alias_kernel == "alias_float4" || alias_kernel == "float4") {
+    alias.kernel = qmc::alias::KernelKind::Float4;
+  } else if (alias_kernel == "alias_split" || alias_kernel == "split") {
+    alias.kernel = qmc::alias::KernelKind::Split;
+  } else {
+    alias.kernel = qmc::alias::KernelKind::Linear;
+  }
   inverse.launch.table_k_theta = std::max(inverse.launch.table_k_radial / 2, 2);
   if (inverse_kernel == "inverse_table" || inverse_kernel == "table") {
     inverse.kernel = qmc::inverse::KernelKind::InverseTable;
@@ -142,13 +187,15 @@ int main(int argc, char** argv) {
     const int cpu_rc = qmc::cpu::verify::RunVerify(false);
     const int gpu_rc = qmc::naive::verify::RunVerify(false);
     const int inv_rc = qmc::inverse::verify::RunVerify(false);
-    return cpu_rc != 0 || gpu_rc != 0 || inv_rc != 0 ? 1 : 0;
+    const int alias_rc = qmc::alias::verify::RunVerify(false);
+    return cpu_rc != 0 || gpu_rc != 0 || inv_rc != 0 || alias_rc != 0 ? 1 : 0;
   }
   if (verify_full->parsed()) {
     const int cpu_rc = qmc::cpu::verify::RunVerify(true);
     const int gpu_rc = qmc::naive::verify::RunVerify(true);
     const int inv_rc = qmc::inverse::verify::RunVerify(true);
-    if (cpu_rc != 0 || gpu_rc != 0 || inv_rc != 0) {
+    const int alias_rc = qmc::alias::verify::RunVerify(true);
+    if (cpu_rc != 0 || gpu_rc != 0 || inv_rc != 0 || alias_rc != 0) {
       qmc::harness::ClearVerifyFull();
       return 1;
     }
@@ -178,6 +225,15 @@ int main(int argc, char** argv) {
   }
   if (inverse_occ->parsed()) {
     return qmc::inverse::RunOccupancySweep(occ_out, occ_n, true);
+  }
+  if (alias_bench->parsed()) {
+    return qmc::alias::RunAliasBench(alias);
+  }
+  if (alias_interior->parsed()) {
+    return qmc::alias::RunInteriorCompare(interior_out, interior_n, true);
+  }
+  if (alias_hole->parsed()) {
+    return qmc::alias::RunNodeHole(hole_out, hole_n, true);
   }
   fmt::print(stderr, "no subcommand\n");
   return 2;

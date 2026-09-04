@@ -92,6 +92,13 @@ add_executable(cuda_qmc_exploration
         parts/inverse-table/experiments/occupancy.cpp
         parts/inverse-table/experiments/node_trap.cpp
         parts/inverse-table/verify/check_inverse.cpp
+        parts/alias-method/src/alias_build.cpp
+        parts/alias-method/src/alias_sample.cu
+        parts/alias-method/src/fused_layout.cu
+        parts/alias-method/src/bench.cpp
+        parts/alias-method/experiments/interior.cpp
+        parts/alias-method/experiments/node_hole.cpp
+        parts/alias-method/verify/check_alias.cpp
 )
 target_include_directories(cuda_qmc_exploration PRIVATE ${CMAKE_SOURCE_DIR})
 target_link_libraries(cuda_qmc_exploration PRIVATE

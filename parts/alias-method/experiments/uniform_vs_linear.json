@@ -1,0 +1,19 @@
+{
+  "env": {
+    "clocks_sm_mhz": 1500,
+    "gpu": "NVIDIA GeForce RTX 2070 Super with Max-Q Design"
+  },
+  "experiment": "uniform_vs_linear",
+  "n_samples": 1000000,
+  "part": "alias-method",
+  "rows": [
+    {
+      "chi2_radial_256": 247.67035165071462,
+      "kernel": "alias_uniform"
+    },
+    {
+      "chi2_radial_256": 247.70854708779785,
+      "kernel": "alias_linear"
+    }
+  ]
+}
