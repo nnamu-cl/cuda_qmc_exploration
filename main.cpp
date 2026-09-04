@@ -16,6 +16,8 @@
 #include "parts/endgame/verify/check_endgame.h"
 #include "parts/naive-cuda/src/sampler.h"
 #include "parts/naive-cuda/verify/check_naive.h"
+#include "parts/packed-records/src/sampler.h"
+#include "parts/packed-records/verify/check_packed.h"
 
 int main(int argc, char** argv) {
   CLI::App app{"Hydrogen orbital sampling worklog"};
@@ -208,6 +210,51 @@ int main(int argc, char** argv) {
   endgame_dump->add_option("--m", dump_m, "m quantum number")
       ->capture_default_str();
 
+  qmc::packed::BenchOptions packed;
+  std::string packed_kernel = "packed";
+  auto* packed_bench = app.add_subcommand(
+      "packed-bench", "Split 8 B alias-record sampler throughput");
+  packed_bench->add_option("--n", packed.n, "samples")->capture_default_str();
+  packed_bench
+      ->add_option("--kernel", packed_kernel,
+                   "packed | packed_linear | packed_shared | packed_ilp")
+      ->capture_default_str();
+  packed_bench->add_option("--principal", packed.principal, "n quantum number")
+      ->capture_default_str();
+  packed_bench->add_option("--l", packed.l, "l quantum number")
+      ->capture_default_str();
+  packed_bench->add_option("--m", packed.m, "m quantum number")
+      ->capture_default_str();
+  packed_bench->add_option("--threads", packed.launch.threads, "block size")
+      ->capture_default_str();
+  packed_bench
+      ->add_option("--samples-per-thread", packed.launch.samples_per_thread,
+                   "independent samples in flight (packed_ilp)")
+      ->capture_default_str();
+  packed_bench
+      ->add_option("--grid-blocks", packed.launch.grid_blocks,
+                   "0 = size the grid from occupancy")
+      ->capture_default_str();
+  packed_bench->add_option("--out", packed.out_path, "write JSON here");
+  bool packed_official = false;
+  packed_bench->add_flag("--official", packed_official,
+                         "refuse JSON unless verify-full passed");
+
+  std::string orbital_out;
+  int orbital_n = 8000000;
+  auto* packed_orbitals = app.add_subcommand(
+      "packed-orbitals", "Per-orbital throughput across the verify matrix");
+  packed_orbitals->add_option("--n", orbital_n, "samples")
+      ->capture_default_str();
+  packed_orbitals->add_option("--out", orbital_out, "write JSON here");
+
+  std::string layout_out;
+  int layout_n = 8000000;
+  auto* packed_layout = app.add_subcommand(
+      "packed-layout", "Block size, shared-vs-global and ILP sweep");
+  packed_layout->add_option("--n", layout_n, "samples")->capture_default_str();
+  packed_layout->add_option("--out", layout_out, "write JSON here");
+
   CLI11_PARSE(app, argc, argv);
   bench.scratch = !official;
   cpu.scratch = !cpu_official;
@@ -215,6 +262,16 @@ int main(int argc, char** argv) {
   inverse.scratch = !inverse_official;
   alias.scratch = !alias_official;
   endgame.scratch = !endgame_official;
+  packed.scratch = !packed_official;
+  if (packed_kernel == "packed_linear" || packed_kernel == "linear") {
+    packed.kernel = qmc::packed::KernelKind::PackedLinear;
+  } else if (packed_kernel == "packed_shared" || packed_kernel == "shared") {
+    packed.kernel = qmc::packed::KernelKind::PackedShared;
+  } else if (packed_kernel == "packed_ilp" || packed_kernel == "ilp") {
+    packed.kernel = qmc::packed::KernelKind::PackedIlp;
+  } else {
+    packed.kernel = qmc::packed::KernelKind::Packed;
+  }
   if (endgame_kernel == "philox_ilp" || endgame_kernel == "ilp") {
     endgame.kernel = qmc::endgame::KernelKind::PhiloxIlp;
   } else if (endgame_kernel == "thrust_alias" || endgame_kernel == "thrust") {
@@ -256,8 +313,9 @@ int main(int argc, char** argv) {
     const int inv_rc = qmc::inverse::verify::RunVerify(false);
     const int alias_rc = qmc::alias::verify::RunVerify(false);
     const int end_rc = qmc::endgame::verify::RunVerify(false);
+    const int packed_rc = qmc::packed::verify::RunVerify(false);
     return cpu_rc != 0 || gpu_rc != 0 || inv_rc != 0 || alias_rc != 0 ||
-                   end_rc != 0
+                   end_rc != 0 || packed_rc != 0
                ? 1
                : 0;
   }
@@ -267,8 +325,9 @@ int main(int argc, char** argv) {
     const int inv_rc = qmc::inverse::verify::RunVerify(true);
     const int alias_rc = qmc::alias::verify::RunVerify(true);
     const int end_rc = qmc::endgame::verify::RunVerify(true);
+    const int packed_rc = qmc::packed::verify::RunVerify(true);
     if (cpu_rc != 0 || gpu_rc != 0 || inv_rc != 0 || alias_rc != 0 ||
-        end_rc != 0) {
+        end_rc != 0 || packed_rc != 0) {
       qmc::harness::ClearVerifyFull();
       return 1;
     }
@@ -316,6 +375,15 @@ int main(int argc, char** argv) {
   }
   if (endgame_bits->parsed()) {
     return qmc::endgame::RunBitCheck(bits_out, bits_n, true);
+  }
+  if (packed_bench->parsed()) {
+    return qmc::packed::RunPackedBench(packed);
+  }
+  if (packed_orbitals->parsed()) {
+    return qmc::packed::RunOrbitalSweep(orbital_out, orbital_n, true);
+  }
+  if (packed_layout->parsed()) {
+    return qmc::packed::RunLayoutSweep(layout_out, layout_n, true);
   }
   if (endgame_dump->parsed()) {
     return qmc::endgame::RunSampleDump(

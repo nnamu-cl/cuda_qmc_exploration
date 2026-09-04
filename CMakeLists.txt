@@ -106,6 +106,12 @@ add_executable(cuda_qmc_exploration
         parts/endgame/experiments/launch_sweep.cpp
         parts/endgame/experiments/bit_check.cpp
         parts/endgame/verify/check_endgame.cpp
+        parts/packed-records/src/packed_build.cpp
+        parts/packed-records/src/packed_sample.cu
+        parts/packed-records/src/bench.cpp
+        parts/packed-records/experiments/orbital_sweep.cpp
+        parts/packed-records/experiments/layout_sweep.cpp
+        parts/packed-records/verify/check_packed.cpp
 )
 target_include_directories(cuda_qmc_exploration PRIVATE ${CMAKE_SOURCE_DIR})
 target_link_libraries(cuda_qmc_exploration PRIVATE
