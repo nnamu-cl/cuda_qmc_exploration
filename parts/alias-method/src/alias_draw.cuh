@@ -55,6 +55,8 @@ __device__ inline DrawnSample DrawAliasSample(
     curandStateXORWOW_t* rng, const AliasBin* radial, int n_radial,
     const AliasBin* theta, int n_theta, int n, int l, int m_abs,
     float radial_norm, float y_norm) {
+
+
   const int j_r = DrawAliasBin(rng, radial, n_radial);
   const float u_r = qmc::naive::Uniform(rng, 0.0f);
   const int j_th = DrawAliasBin(rng, theta, n_theta);
@@ -79,7 +81,7 @@ __device__ inline DrawnSample DrawAliasSample(
   sample.y = radius * sin_th * sin_ph;
   sample.z = radius * cos_th;
   sample.density = qmc::naive::WavefunctionDensity(n, l, m_abs, radius, th,
-                                                   radial_norm, y_norm);
+                                                 radial_norm, y_norm);
   return sample;
 }
 
